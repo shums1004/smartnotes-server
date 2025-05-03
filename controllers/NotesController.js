@@ -34,7 +34,7 @@ export const getAllNotes = async (req, res) => {
         
         const search = req.query.search || '';
         const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
+        const limit = parseInt(req.query.limit) || 6;
       
         const filter = {
           userId: req.userId,
@@ -93,7 +93,7 @@ export const updateNote = async(req, res) => {
         const summary = await generateSummary(content);
         
         if(tags.length < 5){
-            const newTags = await generateTags(content, tags, 5- tags.length);
+            const newTags = await generateTags(content, tags, 5 - tags.length);
             tags.push(...newTags);
         }
         const updatedNote = await Note.findByIdAndUpdate(id, { title, content, tags, summary }, { new: true });
