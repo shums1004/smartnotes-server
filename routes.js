@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 const router = Router();
-import { register, login, logout } from "./controllers/UserController.js";
+import { register, login, logout, authme } from "./controllers/UserController.js";
 import { getAllNotes, getNoteById, createNote, updateNote, deleteNote } from "./controllers/NotesController.js";
 import { auth } from "./middleware/authMiddleware.js";
 
@@ -9,6 +9,7 @@ import { auth } from "./middleware/authMiddleware.js";
 router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", logout);
+router.get("/auth/me", authme);
 
 // Note routes
 router.get("/getnotes", auth, getAllNotes);
