@@ -3,9 +3,11 @@ import mongoose from 'mongoose';
 import { mongoURL, port, corsOrigin } from './config.js';
 import router from './routes.js';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 
 // CORS configuration

@@ -1,13 +1,14 @@
 import { Router } from "express";
 
 const router = Router();
-import { register, login } from "./controllers/UserController.js";
+import { register, login, logout } from "./controllers/UserController.js";
 import { getAllNotes, getNoteById, createNote, updateNote, deleteNote } from "./controllers/NotesController.js";
 import { auth } from "./middleware/authMiddleware.js";
 
 // User routes
 router.post("/register", register);
 router.post("/login", login);
+router.post("/logout", logout);
 
 // Note routes
 router.get("/getnotes", auth, getAllNotes);
