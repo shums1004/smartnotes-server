@@ -29,13 +29,14 @@ export const login = async (req, res) =>{
         if(!user){
             return res.status(401).json({message : 'Invalid Credentials'});
         }
-
-        const isPasswordValid = bcrypt.compare(password, user.password);
+        
+        
+        const isPasswordValid =  await bcrypt.compare(password, user.password);
         
         if(!isPasswordValid){
             return res.status(401).json({message : 'Invalid Credentials'});
         }
-
+        console.log(user);
         const token = jwt.sign({userId : user._id}, jwtSecret);
         res.status(200).json({message : 'Login successful', token, username : user.username});
     }   
