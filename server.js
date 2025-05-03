@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { mongoURL, port, corsOptions } from './config.js';
+import { mongoURL, port, corsOrigin } from './config.js';
 import router from './routes.js';
 import cors from 'cors';
 
@@ -10,7 +10,7 @@ app.use(express.json());
 
 // CORS configuration
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: corsOrigin, // replace with your frontend URL
   credentials: true // optional, needed for cookies
 }));
 
