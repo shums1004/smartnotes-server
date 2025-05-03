@@ -5,16 +5,16 @@ import { generateSummary, generateTags } from '../services/AIService.js';
 export const createNote = async (req, res) => {
 
     try {
+
         const { title, content, tags } = req.body;
 
-;
+     
         const summary = await generateSummary(content);
 
-        console.log("Got summary: ", summary);  
 
         if(tags.length < 5){
             const newTags = await generateTags(content, 5- tags.length);
-            console.log("Got tags: ", newTags);
+            
             newTags.forEach(tag => {
                     tags.push(tag);
             });
@@ -31,7 +31,8 @@ export const createNote = async (req, res) => {
 export const getAllNotes = async (req, res) => {
 
     try{
-        const search = req.query.q || '';
+        
+        const search = req.query.search || '';
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
       
@@ -45,18 +46,19 @@ export const getAllNotes = async (req, res) => {
         };
       
         const totalNotes = await Note.countDocuments(filter);
-      
+        
         const notes = await Note.find(filter)
           .select('_id title summary tags updatedAt') // Only return needed fields
           .sort({ updatedAt: -1 })
           .skip((page - 1) * limit)
           .limit(limit);
-      
+        
+        const totalPages = Math.ceil(totalNotes / limit);
         res.json({
           total: totalNotes,
           page,
           limit,
-          totalPages: Math.ceil(totalNotes / limit),
+          totalPages,
           notes
         });
     } 
@@ -83,7 +85,7 @@ export const updateNote = async(req, res) => {
     
     try {
         const {id} = req.params;
-        const { title, content, tags } = req.body;
+        const { title, content, tags } = req.body.note;
         const userId = req.userId;
         const note = await Note.findOne({ _id: id, userId });
         if (!note) return res.status(404).json({ message: 'Note not found' });

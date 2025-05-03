@@ -6,14 +6,15 @@ import cors from 'cors';
 
 const app = express();
 app.use(express.json());
-app.use('/api', router);
+
 
 // CORS configuration
 app.use(cors({
-  origin: corsOptions.origin,
-  methods: corsOptions.methods,
-  allowedHeaders: corsOptions.allowedHeaders,
+  origin: 'http://localhost:5173',
+  credentials: true // optional, needed for cookies
 }));
+
+app.use('/api', router);
 
 // MongoDB connection
 mongoose.connect(mongoURL)
